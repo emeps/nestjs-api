@@ -7,7 +7,7 @@ import { InvalidRelationError } from '../errors/invalid-relation.error';
 @Injectable()
 export class MoviesService {
   constructor(private prismaService: PrismaService) {}
-  async create(createMovieDto: CreateMovieDto) {
+  async create(createMovieDto: CreateMovieDto & { file: Express.Multer.File }) {
     const categoryExists =
       (await this.prismaService.category.count({
         where: {
@@ -23,7 +23,7 @@ export class MoviesService {
         title: createMovieDto.title,
         description: createMovieDto.description,
         category_id: createMovieDto.category_id,
-        file_path: 'fake/video.mp4',
+        file_path: createMovieDto.file.path,
       },
     });
   }
@@ -47,7 +47,7 @@ export class MoviesService {
         title: updateMovieDto.title,
         description: updateMovieDto.description,
         category_id: updateMovieDto.category_id,
-        file_path: 'fake/video.mp4',
+        file_path: 'faker/video.mp4',
       },
     });
   }

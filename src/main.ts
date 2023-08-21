@@ -13,6 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       errorHttpStatusCode: 422,
+      transform: true,
     }),
   );
   await app.listen(3000);
