@@ -12,7 +12,10 @@ import {
   Res,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import {
+  CreateMovieDto,
+  CreateMovieWithUploadDto,
+} from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieFileValidator } from './video-file.validator';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,13 +23,18 @@ import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { MovieSerializer } from './movies.serializer';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: CreateMovieWithUploadDto,
+  })
   @Post()
+  @UseInterceptors(FileInterceptor('file'))
   create(
     @Body() createMovieDto: CreateMovieDto,
     @UploadedFile(
