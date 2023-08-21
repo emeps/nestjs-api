@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-
+import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class CategoriesService {
   constructor(private prismaService: PrismaService) {}
 
   create(createCategoryDto: CreateCategoryDto) {
     return this.prismaService.category.create({
-      data:{
+      data: {
         name: createCategoryDto.name,
         description: createCategoryDto.description,
-      }
+      },
     });
   }
 
@@ -30,17 +29,17 @@ export class CategoriesService {
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
     return this.prismaService.category.update({
-      where:{id},
-      data:{
+      where: { id },
+      data: {
         name: updateCategoryDto.name,
         description: updateCategoryDto.description,
-      }
-    })
+      },
+    });
   }
 
   remove(id: number) {
     return this.prismaService.category.delete({
-      where:{id}
+      where: { id },
     });
   }
 }
