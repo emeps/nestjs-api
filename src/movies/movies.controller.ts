@@ -19,6 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import { MovieSerializer } from './movies.serializer';
 
 @Controller('movies')
 export class MoviesController {
@@ -45,8 +46,9 @@ export class MoviesController {
   }
 
   @Get()
-  findAll() {
-    return this.moviesService.findAll();
+  async findAll() {
+    const movies = this.moviesService.findAll();
+    return movies.map((movie) => new MovieSerializer(movie));
   }
 
   @Get(':id')

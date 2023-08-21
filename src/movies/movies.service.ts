@@ -29,7 +29,11 @@ export class MoviesService {
   }
 
   findAll() {
-    return this.prismaService.movie.findMany();
+    return this.prismaService.movie.findMany({
+      include: {
+        category: true,
+      },
+    });
   }
 
   findOne(id: number) {
