@@ -15,4 +15,16 @@ model Category{
   id Int @id @default(autoincrement())
   name String @db.VarChar(255)
   description String @db.Text
+  Movie Movie[]
+}
+
+model Movie {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  description String? @db.Text
+  file_path String @db.VarChar(255)
+  category_id Int
+  category Category @relation(fields: [category_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
